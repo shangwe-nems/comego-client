@@ -1,0 +1,114 @@
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,200i,300,300i,400,400i,600,600i,700,700i,900,900i');
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	// font-family: 'Source Sans Pro', sans-serif;
+	-webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-family: 'Source Sans Pro', sans-serif;
+    vertical-align: baseline;
+}
+
+body {
+	line-height: 1;
+	overflow-x: hidden;
+	font-weight: 400;
+	background-color: rgba(64, 192, 87, .02);
+}
+
+// .mantine-19iche8 tbody tr td thead th {
+//     padding: 4px 8px !important;
+//     border: 1px solid #eaeaea !important;
+//     font-size: .85em !important;
+// 	vertical-align: middle;
+// }
+
+.mantine-4onn82, tr, td {
+    padding: 2px 14px !important;
+    border: 1px solid #eaeaea !important;
+    vertical-align: middle;
+}
+
+
+.mantine-vfje8a {
+    padding: 8px 14px !important;
+}
+
+.name_color_checkbox {
+    display: inline-flex;
+    align-items: flex-end;
+    position: relative;
+    width: 100%;
+    margin: 8px 0 0 0;
+
+    .textinput {
+        width: 75%;
+        margin-right: 10px;
+    }
+
+    .checkbox {
+        margin-bottom: 8px;
+    }
+}
+
+.dates {
+    width: 100%;
+    display: inline-flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-top: 8px;
+}
+
+.description { 
+    margin: 8px 0;
+}
+
+.flexing {
+    display: inline-flex;
+    align-items: center;
+}
+
+.mantine-qebwbh {
+    font-size: 12px !important;
+}
+
+.mantine-4onn82, tr, th, td {
+    border: 1px solid #eaeaea !important;
+}
+
+
+@media print {
+	@page {
+		size: A4;
+		margin: 4mm 4mm;
+
+		@top-left {
+			content: "Hello";
+		}
+
+		@bottom-left {
+			content: 'Bye'
+		}
+	}
+  
+	footer {
+	  page-break-after: always;
+	}
+}
+
+

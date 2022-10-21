@@ -1,0 +1,37 @@
+.mantine-vfje8a {
+    padding: 14px 20px !important;
+}
+
+.name_color_checkbox {
+    display: inline-flex;
+    align-items: flex-end;
+    position: relative;
+    width: 100%;
+    margin: 8px 0 0 0;
+
+    .textinput {
+        width: 75%;
+        margin-right: 10px;
+    }
+
+    .checkbox {
+        margin-bottom: 8px;
+    }
+}
+
+.dates {
+    width: 100%;
+    display: inline-flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-top: 8px;
+}
+
+.description { 
+    margin: 8px 0;
+}
+
+.flexing {
+    display: inline-flex;
+    align-items: center;
+}

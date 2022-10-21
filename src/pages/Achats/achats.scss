@@ -1,0 +1,115 @@
+.user-container {
+    border-top: 2px solid #1fb4ff;
+
+    &:hover {
+        cursor: pointer;
+        box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
+    }
+
+    .user-head-container {
+        width: 100%;
+        display: inline-flex;
+        align-items: center;
+        margin: 8px 14px;
+        position: relative;
+
+        .user-head-data {
+            margin-left: 14px;
+
+            h4 {
+                font-size: 16px;
+                font-weight: 400;
+                margin-bottom: 2px;
+            }
+
+            span {
+                font-size: 14px;
+                color: #a6a6a6;
+            }
+        }
+
+        .total-amount {
+            font-family: Monaco;
+            position: absolute;
+            font-size: 16px;
+            font-weight: 600;
+            right: 28px;
+            color: #1fb4ff;
+        }
+
+    }
+
+
+    .user-divider {
+        margin: 0;
+    }
+
+    .user-circle-left {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background-color: #f8f7fa;
+        border-right: 1px solid #cacaca;
+        position: absolute;
+        left: -15px;
+        top: 65px;
+    }
+
+    .user-circle-right {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background-color: #f8f7fa;
+        position: absolute;
+        border-left: 1px solid #cacaca;
+        right: -15px;
+        top: 65px;
+    }
+
+    .user-body-container {
+        padding: 7px 8px;
+
+        .user-body-payment {
+            width: 100%;
+            display: inline-flex;
+            align-items: center;
+            position: relative;
+            margin: 7px 0;
+
+            .payment-left {
+                display: inline-flex;
+                align-items: center;
+                padding-left: 20px;
+
+                .payment-data {
+                    margin-left: 14px;
+                    font-size: 14px;
+                    p {
+                        margin: 0;
+                        padding: 0;
+                        color: dodgerblue;
+
+                        b {
+                            margin: 0;
+                            padding: 0;
+                            color: rgb(33, 32, 32);
+                        }
+                    }
+                }
+            }
+
+            h3 {
+                font-family: Monaco;
+                font-size: 14px;
+                position: absolute;
+                right: 20px;
+                color: rgb(22, 161, 22);
+            }
+        }
+    }
+}
+
+.rightSection {
+    display: inline-flex;
+    align-items: center;
+}

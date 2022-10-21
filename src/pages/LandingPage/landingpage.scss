@@ -1,0 +1,65 @@
+@import '../../assets/style/reset';
+
+.main-wrapper {
+    background: rgb(0, 0, 0);   
+}
+
+.main-container {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    
+    background: url('../../assets/img/light-flash.gif') right no-repeat;
+    background-size: contain;
+    opacity: 1;
+    
+    
+    padding: 0 8%;
+    display: grid;
+    place-content: center;
+
+    .dt-container {
+        width: 45%;
+        float: left;
+        padding: 0 20px;
+        margin-top: 4%;
+       
+        img {
+            float: left;
+            height: 140px;
+            width: auto;
+            margin: 0px 0;
+            margin-left: 30px;
+        }
+
+        p {
+            float: left;
+            font-size: 1.1em;
+            line-height: 1.3em;
+            margin: 60px 30px 50px 30px;            
+            color: #fafafa;
+
+        }
+
+        button {
+            float: left;
+            margin-left: 30px;
+
+            border: 0;
+            background-image: linear-gradient(270deg, #000000 0%, #40c057 100%);
+            
+            border-right: 1px solid #1c1b1b;
+            color: #fff;
+            height: 42px;
+            padding: 0 22px;
+            -webkit-font-smoothing: antialiased;
+
+            &:hover {
+                background-image: rgb(64, 192, 87);
+                background-image: linear-gradient(270deg, rgba(0, 0, 0, .9) 40%, rgba(64, 192, 87, .9) 100%);
+                
+            }
+
+        }
+    }
+}
