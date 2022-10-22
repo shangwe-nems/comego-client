@@ -18,16 +18,16 @@ function InvoiceDisplay({data, handleClose}) {
 
     const selectedItems = data?.products?.map(data => (
         <tr key={data.product} noWrap style={{borderBlock:'0.5px solid #eaeaea', marginBlock:2}}>
-            <td style={{width: '12%', border:'1px solid #eaeaea', padding: '.2rem', textAlign:'right', fontSize:14}}>
+            <td style={{width: '10%', border:'1px solid #eaeaea', padding: '.2rem', textAlign:'right', fontSize:12}}>
                 <p>{data?.qty}</p>
             </td>
-            <td style={{width: '48%', border:'1px solid #eaeaea', padding: '.2rem', fontSize:14}}>
+            <td style={{width: '50%', border:'1px solid #eaeaea', padding: '.2rem', fontSize:12}}>
                 <p>{data?.designation}</p>
             </td>
-            <td style={{width: '20%', border:'1px solid #eaeaea', padding: '.2rem', fontSize:16, textAlign:'right'}}>
+            <td style={{width: '20%', border:'1px solid #eaeaea', padding: '.2rem', fontSize:14, textAlign:'right'}}>
                 <p>${parseNumber((data?.pv_unit)?.toFixed(2))}</p>
             </td>
-            <td style={{width: '20%', border:'1px solid #eaeaea', padding: '.2rem', fontSize:16, textAlign:'right'}}>
+            <td style={{width: '20%', border:'1px solid #eaeaea', padding: '.2rem', fontSize:14, textAlign:'right'}}>
                 <p>${parseNumber((data?.pv_tot)?.toFixed(2))}</p>
             </td>
         </tr>
@@ -35,10 +35,10 @@ function InvoiceDisplay({data, handleClose}) {
 
     const blankItems = [1, 2, 3, 4, 5, 6].map(data => (
         <tr key={data.product} noWrap style={{borderBlock:'0.5px solid #eaeaea', marginBlock:2}}>
-            <td style={{width: '12%', border:'1px solid #eaeaea', padding: '.2rem', textAlign:'right', fontSize:14}}>
+            <td style={{width: '10%', border:'1px solid #eaeaea', padding: '.2rem', textAlign:'right', fontSize:12}}>
                 <p style={{opacity: 0}}>{data?.qty}</p>
             </td>
-            <td style={{width: '48%', border:'1px solid #eaeaea', padding: '.2rem', fontSize:14}}>
+            <td style={{width: '50%', border:'1px solid #eaeaea', padding: '.2rem', fontSize:12}}>
                 <p style={{opacity: 0}}>{data?.designation}</p>
             </td>
             <td style={{width: '20%', border:'1px solid #eaeaea', padding: '.2rem', textAlign:'right'}}>
@@ -82,16 +82,16 @@ function InvoiceDisplay({data, handleClose}) {
                 <table style={{width: '100%', borderCollapse: 'collapse'}} className="table-receipt"> 
                     <thead style={{backgroundColor:'#e10600', color: '#fff'}}> 
                         <tr> 
-                            <th style={{width: '12%', border:'1px solid #eaeaea', padding: '.4rem', textAlign:'right', fontSize:16, fontWeight:600}}>
+                            <th style={{width: '10%', border:'1px solid #eaeaea', padding: '.4rem', textAlign:'right', fontSize:14, fontWeight:600}}>
                                 <h3>Qté </h3>
                             </th> 
-                            <th style={{width: '48%', border:'1px solid #eaeaea', padding: '.4rem', fontWeight:600, fontSize:16}}>
+                            <th style={{width: '50%', border:'1px solid #eaeaea', padding: '.4rem', fontWeight:600, fontSize:14}}>
                                 <h3>Désignation</h3>
                             </th> 
-                            <th style={{width: '20%', border:'1px solid #eaeaea', padding: '.4rem', textAlign:'right', fontWeight:600}}>
+                            <th style={{width: '20%', border:'1px solid #eaeaea', padding: '.4rem', textAlign:'right', fontSize:14, fontWeight:600}}>
                                 <h3>P.U.</h3>
                             </th> 
-                            <th style={{width: '20%', border:'1px solid #eaeaea', padding: '.4rem', textAlign:'right', fontWeight:600}}>
+                            <th style={{width: '20%', border:'1px solid #eaeaea', padding: '.4rem', textAlign:'right', fontSize:14, fontWeight:600}}>
                                 <h3>P.T.</h3>
                             </th> 
                         </tr> 
