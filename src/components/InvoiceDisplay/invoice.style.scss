@@ -65,7 +65,7 @@ td, th {
 
 .invoice-recipient {
     margin-top: 8px;
-    font-size: 16px;
+    font-size: 14px;
     vertical-align: middle;
 }
 
@@ -74,7 +74,7 @@ td, th {
     text-align: center;
     font-style: italic;
     font-weight: 400;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .watermark {
@@ -88,10 +88,10 @@ td, th {
     position: absolute;
     text-align: center;
     text-transform: uppercase;
-    top: 60%;
-    left: 25%;
-    transform: translate(-50%,-25%);
-    transform: rotate(-45deg);
+    top: 75%;
+    right: 7%;
+    // transform: translate(-50%,-75%);
+    transform: rotate(-35deg);
     user-select: none;
 }
 
@@ -101,7 +101,7 @@ td, th {
     display: inline-flex;
     align-items: flex-start;
     justify-content: space-between;
-    font-size: 14px;
+    font-size: 12px;
 
     .terms {
         width: 65%;
