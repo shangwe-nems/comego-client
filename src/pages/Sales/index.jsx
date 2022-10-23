@@ -93,6 +93,8 @@ function Sales() {
   const [isLoading, invoices] = LoadInvoices()
 
   const [createVisible, setcreateVisible] = useState(false)
+  const [proformaVisible, setproformaVisible] = useState(false)
+
   const [invoiceVisible, setinvoiceVisible] = useState(false)
   const [search, setSearch] = useState('');
   const [sortedData, setSortedData] = useState([]);
@@ -215,7 +217,10 @@ function Sales() {
               <div>
                   <ScrollArea>
                       <div style={{width: '100%', display: 'inline-flex', alignItems: 'center', justifyContent: 'space-between'}}>
-                          <Button leftIcon={<BsFolderPlus size={20} />} onClick={() => setcreateVisible(true)} color="red" style={{marginRight: 14}}>Vendre Produit</Button>
+                          <div>
+                            <Button leftIcon={<BsFolderPlus size={20} />} onClick={() => setcreateVisible(true)} color="red" style={{marginRight: 14}}>Vendre Produit</Button>
+                            <Button leftIcon={<BsReceipt size={20} />} onClick={() => setproformaVisible(true)} color="cyan" >Proforma</Button>
+                          </div>
                           <TextInput placeholder="Search by any field" value={search} onChange={handleSearchChange} variant="filled" style={{width: 280}} icon={<BsSearch size={14} />} />
                       </div>
                       <Divider style={{marginBlock:14}} />
@@ -301,6 +306,21 @@ function Sales() {
             status='create'
             handleClose={() => {
               setcreateVisible(false)
+            }}
+          />
+        </Modal>
+
+        <Modal
+            overlayOpacity={0.5}
+            opened={proformaVisible}
+            onClose={() => setproformaVisible(false)}
+            title={<Title order={4} style={{ display: 'inline-flex', alignItems: 'center', fontWeight:'400', color:'#52a9fa'}}><BsTagFill size={18} style={{marginRight:8}} /> Facture Proforma</Title>}
+        >
+          <SaleForm
+            status='create'
+            type = 'proforma'
+            handleClose={() => {
+              setproformaVisible(false)
             }}
           />
         </Modal>

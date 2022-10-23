@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Card, Grid, Modal, Title, ScrollArea, TextInput, Table, createStyles, UnstyledButton, Center, Group, Text, Divider, Avatar, Pagination } from '@mantine/core'
-import { BsFolderPlus, BsCashCoin, BsSearch, BsPencilSquare, BsChevronUp, BsChevronDown, BsChevronExpand, BsTags } from 'react-icons/bs'
+import { Button, Card, Grid, Modal, Title, ScrollArea, TextInput, Table, createStyles, UnstyledButton, Center, Group, Text, Divider, Avatar } from '@mantine/core'
+import { BsFolderPlus, BsCashCoin, BsSearch, BsPencilSquare, BsChevronUp, BsChevronDown, BsChevronExpand, BsTags, BsCart4 } from 'react-icons/bs'
 import AchatForm from '../../components/AchatForm'
 import './achats.scss'
 import Loading from '../../components/Loader'
@@ -166,7 +166,10 @@ function Achats() {
                         <div>
                             <ScrollArea>
                                 <div style={{width: '100%', display: 'inline-flex', alignItems: 'center', justifyContent: 'space-between'}}>
-                                    <Button leftIcon={<BsFolderPlus size={20} />} onClick={() => setcreateVisible(true)} color="red" style={{marginRight: 14}}>S'approvisionner</Button>
+                                    <div>
+                                        <Button leftIcon={<BsFolderPlus size={20} />} onClick={() => setcreateVisible(true)} color="red" style={{marginRight: 14}}>S'approvisionner</Button>
+                                        <Button leftIcon={<BsCart4 size={20} />} onClick={() => setcreateVisible(true)} color="teal" >Passer commande</Button>
+                                    </div>
                                     <div>
                                         <TextInput placeholder="Search by designation" style={{width: 280}} value={search} onChange={handleSearchChange} variant="filled" icon={<BsSearch size={14} />} />
                                     </div>
