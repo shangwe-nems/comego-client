@@ -288,6 +288,7 @@ function SaleForm({ handleClose }) {
             title={<Title order={4} style={{ display: 'inline-flex', alignItems: 'center', fontWeight:'600', color:'#fa5252'}}><BsTags size={18} style={{marginRight:8}} /> Liste d'achats</Title>}
         >
             <AchatList
+                category='facture'
                 handleValidate={(list, sum) => {
                     setItemList(list)
                     setTotal(sum)

@@ -12,6 +12,7 @@ import { LoadInvoices } from '../../hooks/fetchInvoices'
 import Loading from '../../components/Loader'
 import InvoiceDisplay from '../../components/InvoiceDisplay'
 import { cancelInvoice } from '../../redux/slices/invoices'
+import ProformaForm from '../../components/ProformaForm'
 
 
 const useStyles = createStyles((theme) => ({
@@ -298,6 +299,7 @@ function Sales() {
 
         <Modal
             overlayOpacity={0.5}
+            size={550}
             opened={createVisible}
             onClose={() => setcreateVisible(false)}
             title={<Title order={4} style={{ display: 'inline-flex', alignItems: 'center', fontWeight:'400', color:'#fa5252'}}><BsTagFill size={18} style={{marginRight:8}} /> Nouvelle vente</Title>}
@@ -312,13 +314,13 @@ function Sales() {
 
         <Modal
             overlayOpacity={0.5}
+            size={550}
             opened={proformaVisible}
             onClose={() => setproformaVisible(false)}
             title={<Title order={4} style={{ display: 'inline-flex', alignItems: 'center', fontWeight:'400', color:'#52a9fa'}}><BsTagFill size={18} style={{marginRight:8}} /> Facture Proforma</Title>}
         >
-          <SaleForm
+          <ProformaForm
             status='create'
-            type = 'proforma'
             handleClose={() => {
               setproformaVisible(false)
             }}

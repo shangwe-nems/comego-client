@@ -6,11 +6,12 @@ import * as yup from "yup"
 import { useNotifications } from '@mantine/notifications';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm, yupResolver } from '@mantine/form';
-import { BsCash, BsCheck2, BsCreditCard, BsExclamationLg, BsPerson, BsPlus, BsPrinter, BsReceipt, BsTags } from 'react-icons/bs';
+import { BsCash, BsCheck2, BsCreditCard, BsExclamationLg, BsPerson, BsPlus, BsShop, BsTags } from 'react-icons/bs';
 import { FaRegSave } from 'react-icons/fa';
-import AchatList from '../AchatList';
 import ClientForm from '../ClientForm';
-import InvoiceDisplay from '../InvoiceDisplay';
+import { createCommande } from '../../redux/slices/commandes';
+import CommandeList from '../CommandeList';
+import ProviderForm from '../ProviderForm';
 
 const optionsPayment = [
     {
@@ -24,15 +25,15 @@ const optionsPayment = [
 ]
 
 const SelectItem2 = forwardRef(
-    ({ reference, phone, label, description, ...others }, ref) => (
-      <div ref={ref} {...others}>
+    ({ shop_name, _id, contact, label, description, ...others }, ref) => (
+      <div key={_id} ref={ref} {...others}>
         <Group noWrap>
-          <Avatar><BsPerson size={24} color='red' /></Avatar>
+          <Avatar><BsShop size={24} color='red' /></Avatar>
   
           <div>
             <Text size="sm">{label}</Text>
             <Text size="xs" color="dimmed">
-              {phone}
+              {contact}
             </Text>
           </div>
         </Group>
@@ -40,20 +41,7 @@ const SelectItem2 = forwardRef(
     )
 );
 
-const SelectItem3 = forwardRef(
-    ({ label, value, ...others }, ref) => (
-        <div ref={ref} {...others}>
-            <Group noWrap>
-                {value === 'cash' ? <BsCash /> : <BsCreditCard /> }
-                <div>
-                    <Text size='sm'>{label}</Text>
-                </div>
-            </Group>
-        </div>
-    )
-);
-
-const createProformaSchema = yup.object().shape({
+const createCommandeSchema = yup.object().shape({
     sale_date: yup.string().required(),
     buyer_category: yup.string().required(),
     client: yup.string().optional(),
@@ -63,23 +51,19 @@ const createProformaSchema = yup.object().shape({
     observation: yup.string().optional(),
 })
 
-function ProformaForm({ handleClose }) {
+function CommandeForm({ handleClose }) {
     const dispatch = useDispatch()
     const notifications = useNotifications()
     const [loading, setloading] = useState(false);
-    const [clientType, setclientType] = useState('Occasionnel')
     const [clientCreate, setclientCreate] = useState(false);
-    const [paymentType, setpaymentType] = useState('cash');
     const [productSelect, setproductSelect] = useState(false)
     const [itemList, setItemList] = useState([])
     const [total, setTotal] = useState(0)
-    const [invoiceVisible, setinvoiceVisible] = useState(false)
-    const [selectedInvoice, setselectedInvoice] = useState()
 
-    const clients = useSelector(state => state.clients)
+    const providers = useSelector(state => state.providers)
 
     const form = useForm({
-        validate: yupResolver(createProformaSchema),
+        validate: yupResolver(createCommandeSchema),
         initialValues: {
             sale_date: new Date(),
             buyer_category: 'casual',
@@ -92,62 +76,59 @@ function ProformaForm({ handleClose }) {
     })
 
 
-    const clientProvider = !clients ? [] : clients?.map(client => {
+    const providerProvider = !providers ? [] : providers?.map(provider => {
         return {
-            label: client?.names,
-            phone: client?.phone,
-            value: client?._id,
+            label: provider?.shop_name,
+            phone: provider?.contact,
+            value: provider?._id,
         }
     })
 
     function findClientName(id) {
-        return clients?.find(client => client._id === id)
+        return providers?.find(provider => provider._id === id)
     }
 
     function handleSubmit(values, e) {
         setloading(true)
+        const provider = findClientName(values?.provider)
+
         const dataToSubmit = { 
             ...values, 
-            createdAt: new Date().toISOString(),
-            invoice_no: (Math.random().toString()).substring(2,6),
-            buyer_name: values?.buyer_category === 'casual' ? values?.buyer_name : findClientName(values?.client).names,
-            client: values?.buyer_category === 'regular' ? values?.client : undefined,
+            shop_name: values?.shop_name || provider?.shop_name,
+            provider: provider._id,
             products: itemList,
-            total_amount: parseFloat(total.toFixed(2)),
+            total_amount: total.toFixed(2),
             isValid: true,
         }
 
-        console.log('found data: ', dataToSubmit)
-
-        setselectedInvoice(dataToSubmit)
-        setinvoiceVisible(true)
+        console.log('Find values :', dataToSubmit)
         
-        // setTimeout(() => {
-        //     dispatch(createProforma({ dataToSubmit }))
-        //         .then(res => {
-        //             if(res?.payload) {
-        //                 handleClose()
-        //                 notifications.showNotification({
-        //                     color: 'green',
-        //                     title: 'Success',
-        //                     message: 'Saved successfully!',
-        //                     icon: <BsCheck2 size={20} />
-        //                 })
-        //                 setloading(false)
-        //             }
+        setTimeout(() => {
+            // dispatch(createCommande({ dataToSubmit }))
+            //     .then(res => {
+            //         if(res?.payload) {
+            //             handleClose()
+            //             notifications.showNotification({
+            //                 color: 'green',
+            //                 title: 'Success',
+            //                 message: 'Saved successfully!',
+            //                 icon: <BsCheck2 size={20} />
+            //             })
+            //             setloading(false)
+            //         }
                 
-        //             if(res?.error?.message === "Unauthorized") {
-        //                 setloading(false)
-        //                 notifications.showNotification({
-        //                     color: 'red',
-        //                     title: 'Error',
-        //                     message: 'Something happened...',
-        //                     icon: <BsExclamationLg size={20} />
-        //                 })
-        //             }
-        //         })
-        //     setloading(false)
-        // }, 800);
+            //         if(res?.error?.message === "Unauthorized") {
+            //             setloading(false)
+            //             notifications.showNotification({
+            //                 color: 'red',
+            //                 title: 'Error',
+            //                 message: 'Something happened...',
+            //                 icon: <BsExclamationLg size={20} />
+            //             })
+            //         }
+            //     })
+            setloading(false)
+        }, 800);
 
        
     }
@@ -168,36 +149,25 @@ function ProformaForm({ handleClose }) {
                 <DatePicker
                     defaultValue={new Date()}
                     variant="filled" 
-                    style={{width:'49%'}} 
+                    style={{width:'100%'}} 
                     description="Date de vente :"
                     {...form.getInputProps("sale_date")}
                 />
-                <Select 
-                    size='sm'
-                    defaultValue='Occasionnel'
-                    data={[{label: 'Occasionnel', value: 'casual'}, {label: 'Régulier', value:'regular'}]}
-                    variant="filled" 
-                    style={{width:'49%'}} 
-                    onSelect={e => setclientType(e.target.value)}
-                    {...form.getInputProps("buyer_category")}
-                    description="Type d'acheteur :" 
-                />
             </div>
 
-            {clientType === 'Régulier' ? <>
             <div className='dates' style={{paddingTop: 8}}>
                 <Select 
-                    data={clientProvider} 
+                    data={providerProvider} 
                     itemComponent={SelectItem2} 
                     size='sm' 
                     variant="filled" 
-                    description="Selectionner le client concerné : " 
-                    placeholder='Selectionner client' 
-                    style={{width:'89%'}}
+                    description="Selectionner le fournisseur concerné : " 
+                    placeholder='Selectionner fournisseur' 
+                    style={{width:'91%'}}
                     searchable
                     clearable
                     maxDropdownHeight={400}
-                    {...form.getInputProps("client")}
+                    {...form.getInputProps("provider")}
                     nothingFound="Nobody here"
                     filter={(value, item) =>
                         item?.label?.toLowerCase().includes(value?.toLowerCase().trim()) ||
@@ -206,24 +176,17 @@ function ProformaForm({ handleClose }) {
                 />
                 <ActionIcon size='lg' variant='filled' color='red' style={{marginBottom: 1}} onClick={() => setclientCreate(true)} ><BsPlus size={28} /></ActionIcon>
             </div>
-            </> : 
-            <div className='dates' style={{paddingTop: 8}}>
-                <TextInput  variant="filled" style={{width:'100%'}} size='sm' description="Nom de l'acheteur :"
-                {...form.getInputProps("buyer_name")}
-                />
-            </div>
-            }
 
             <div className='description'>
                 <Textarea 
                     variant="filled" size='sm' label="Observation :" 
-                    description="Decrivez un details particulier sur la vente : " 
+                    description="Decrivez un détails particulier sur la vente : " 
                     {...form.getInputProps("observation")}
                 />
             </div>
 
             <div className='dates' style={{paddingTop: 14}}>
-                <Button variant="light" color="red" fullWidth onClick={() => setproductSelect(true)}>Selectionner produits</Button>
+                <Button variant="light" color="red" fullWidth onClick={() => setproductSelect(true)}>Sélectionner produits</Button>
             </div>
 
             <Divider label={`Produits selectionnés (${itemList.length})`} labelPosition='center' />
@@ -248,15 +211,15 @@ function ProformaForm({ handleClose }) {
             <Divider />
             
             <div style={{float: 'right', display: 'inline-flex', alignItems: 'center', marginTop: 14}}>
-                <Button size='sm' loading={loading} leftIcon={<BsReceipt />}  type='submit' color='cyan'>Génerer facture</Button>
+                <Button size='sm' loading={loading} leftIcon={<FaRegSave />}  type='submit' color='gray'>Enregistrer</Button>
             </div>
         </form>  
         <Modal
             opened={clientCreate}
             onClose={() => setclientCreate(false)}
-            title={<Title order={4} style={{ display: 'inline-flex', alignItems: 'center', fontWeight:'600', color:'#fa5252'}}><BsPerson size={18} style={{marginRight:8}} /> Nouveau client</Title>}
+            title={<Title order={4} style={{ display: 'inline-flex', alignItems: 'center', fontWeight:'600', color:'#fa5252'}}><BsShop size={18} style={{marginRight:8}} /> Nouveau fournisseur</Title>}
         >
-            <ClientForm
+            <ProviderForm
                 status='create' 
                 handleClose={() => {
                     setclientCreate(false)
@@ -272,8 +235,7 @@ function ProformaForm({ handleClose }) {
             size="xl"
             title={<Title order={4} style={{ display: 'inline-flex', alignItems: 'center', fontWeight:'600', color:'#fa5252'}}><BsTags size={18} style={{marginRight:8}} /> Liste d'achats</Title>}
         >
-            <AchatList
-                category='proforma'
+            <CommandeList
                 handleValidate={(list, sum) => {
                     setItemList(list)
                     setTotal(sum)
@@ -281,24 +243,8 @@ function ProformaForm({ handleClose }) {
                 }} 
             />
         </Modal>  
-
-        <Modal
-            overlayOpacity={0.5}
-            size={900}
-            opened={invoiceVisible}
-            onClose={() => setinvoiceVisible(false)}
-            title={<Title order={4} style={{ display: 'inline-flex', alignItems: 'center', fontWeight:'400', color:'#fa5252'}}><BsReceipt size={18} style={{marginRight:8}} /> Facture Nº {(selectedInvoice?.invoice_no)?.toString()?.padStart(7 + '', "0")}</Title>}
-        >
-          <InvoiceDisplay
-            data={selectedInvoice}
-            category="proforma"
-            handleClose={() => {
-              setinvoiceVisible(false)
-            }}
-          />
-        </Modal>
     </div>
   )
 }
 
-export default ProformaForm
+export default CommandeForm

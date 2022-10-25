@@ -6,6 +6,7 @@ import './achats.scss'
 import Loading from '../../components/Loader'
 import { useSelector } from 'react-redux'
 import { LoadPurchases } from '../../hooks/fetchPurchases'
+import CommandeForm from '../../components/CommandeForm'
 
 const useStyles = createStyles((theme) => ({
     th: {
@@ -91,6 +92,7 @@ function Achats() {
     }, [purchasesState, purchases])
 
     const [createVisible, setcreateVisible] = useState(false)
+    const [commandeVisible, setcommandeVisible] = useState(false)
     const [editVisible, setEditVisible] = useState(false)
 
     const setSorting = (field) => {
@@ -168,7 +170,7 @@ function Achats() {
                                 <div style={{width: '100%', display: 'inline-flex', alignItems: 'center', justifyContent: 'space-between'}}>
                                     <div>
                                         <Button leftIcon={<BsFolderPlus size={20} />} onClick={() => setcreateVisible(true)} color="red" style={{marginRight: 14}}>S'approvisionner</Button>
-                                        <Button leftIcon={<BsCart4 size={20} />} onClick={() => setcreateVisible(true)} color="teal" >Passer commande</Button>
+                                        <Button leftIcon={<BsCart4 size={20} />} onClick={() => setcommandeVisible(true)} color="teal" >Passer commande</Button>
                                     </div>
                                     <div>
                                         <TextInput placeholder="Search by designation" style={{width: 280}} value={search} onChange={handleSearchChange} variant="filled" icon={<BsSearch size={14} />} />
@@ -245,6 +247,22 @@ function Achats() {
                     </Card>
                 </Grid.Col>
             </Grid>
+
+            <Modal
+                overlayOpacity={0.5}
+                size={550}
+                opened={commandeVisible}
+                onClose={() => setcommandeVisible(false)}
+                title={<Title order={4} style={{ display: 'inline-flex', alignItems: 'center', fontWeight:'600', color:'#fa5252'}}><BsCart4 size={18} style={{marginRight:8}} /> Nouvelle commande</Title>}
+            >
+                <CommandeForm
+                    status='create' 
+                    handleClose={() => {
+                        setcommandeVisible(false)
+                        setselectedPurchase(undefined)
+                    }} 
+                />
+            </Modal>
 
             <Modal
                 overlayOpacity={0.5}

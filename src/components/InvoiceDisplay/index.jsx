@@ -1,12 +1,11 @@
-import { Button, Divider, Group } from '@mantine/core'
+import { Button, Divider } from '@mantine/core'
 import React, { useRef } from 'react'
-import { useEffect } from 'react'
 import { useState } from 'react'
 import { BsPrinter } from 'react-icons/bs'
 import ReactToPrint from 'react-to-print'
 import './invoice.style.scss'
 
-function InvoiceDisplay({data, handleClose}) {
+function InvoiceDisplay({ data, handleClose }) {
     const [printing, setPrinting] = useState(false)
 
     const componentRef = useRef();
@@ -15,6 +14,7 @@ function InvoiceDisplay({data, handleClose}) {
         return `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     }
     
+    console.log('From invoice Display: ', data)
 
     const selectedItems = data?.products?.map(data => (
         <tr key={data.product} noWrap style={{borderBlock:'0.5px solid #eaeaea', marginBlock:2}}>
@@ -71,7 +71,10 @@ function InvoiceDisplay({data, handleClose}) {
                 <div className='invoice-no'>
                     {/* <h3>FACTURE N° {(data.invoice_no)?.toString()?.padStart(7 + '', "0")}</h3> */}
                     <p>Goma, le {new Date(data?.createdAt).toLocaleString('vh').substring(0, 10)}</p>
+                    {/* <h3>PROFORMA</h3> */}
                     <h3>FACTURE</h3>
+                    {/* <h3>BON DE COMMANDE</h3>
+                    <h3>BON DE LIVRAISON</h3> */}
                     <p style={{fontSize:18}}>#{(data.invoice_no)?.toString()?.padStart(7 + '', "0")}</p>
                 </div>
                 <Divider size="md" style={{marginBlock:32}} />
@@ -105,7 +108,7 @@ function InvoiceDisplay({data, handleClose}) {
                             {/* <th  style={{width: '12%', textAlign:'right', fontWeight:400, fontSize:14}}></th>
                             <th style={{width: '48%', textAlign:'right', fontWeight:400, fontSize:14}}></th> */}
                             <th colspan="3" style={{width: '20%', border:'1px solid #eaeaea', padding: '.6rem', textAlign:'right', fontWeight:400, fontSize:14}}>Grand Total :</th>
-                            <th style={{width: '20%', backgroundColor:'yellow', border:'1px solid #eaeaea', padding: '.6rem', paddingBlock:2, textAlign:'right', fontSize:18, fontWeight:600}}>${parseNumber(data?.total_amount.toFixed(2))}</th>
+                            <th style={{width: '20%', backgroundColor:'yellow', border:'1px solid #eaeaea', padding: '.6rem', paddingBlock:2, textAlign:'right', fontSize:18, fontWeight:600}}>${parseNumber(data?.total_amount?.toFixed(2))}</th>
                         </tr>
                     </tfoot>
                 </table>
