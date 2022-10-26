@@ -94,39 +94,39 @@ function CommandeForm({ handleClose }) {
 
         const dataToSubmit = { 
             ...values, 
-            shop_name: values?.shop_name || provider?.shop_name,
+            provider_name: values?.shop_name || provider?.shop_name,
             provider: provider._id,
             products: itemList,
             total_amount: total.toFixed(2),
             isValid: true,
         }
 
-        console.log('Find values :', dataToSubmit)
+        // console.log('Find values :', dataToSubmit)
         
         setTimeout(() => {
-            // dispatch(createCommande({ dataToSubmit }))
-            //     .then(res => {
-            //         if(res?.payload) {
-            //             handleClose()
-            //             notifications.showNotification({
-            //                 color: 'green',
-            //                 title: 'Success',
-            //                 message: 'Saved successfully!',
-            //                 icon: <BsCheck2 size={20} />
-            //             })
-            //             setloading(false)
-            //         }
+            dispatch(createCommande({ dataToSubmit }))
+                .then(res => {
+                    if(res?.payload) {
+                        handleClose()
+                        notifications.showNotification({
+                            color: 'green',
+                            title: 'Success',
+                            message: 'Saved successfully!',
+                            icon: <BsCheck2 size={20} />
+                        })
+                        setloading(false)
+                    }
                 
-            //         if(res?.error?.message === "Unauthorized") {
-            //             setloading(false)
-            //             notifications.showNotification({
-            //                 color: 'red',
-            //                 title: 'Error',
-            //                 message: 'Something happened...',
-            //                 icon: <BsExclamationLg size={20} />
-            //             })
-            //         }
-            //     })
+                    if(res?.error?.message === "Unauthorized") {
+                        setloading(false)
+                        notifications.showNotification({
+                            color: 'red',
+                            title: 'Error',
+                            message: 'Something happened...',
+                            icon: <BsExclamationLg size={20} />
+                        })
+                    }
+                })
             setloading(false)
         }, 800);
 
@@ -134,7 +134,7 @@ function CommandeForm({ handleClose }) {
     }
 
     const selectedItems = itemList.map(data => (
-        <Group key={data.product} noWrap style={{borderBlock:'0.5px solid #eaeaea', marginBlock:2}}>
+        <Group key={data._id} noWrap style={{borderBlock:'0.5px solid #eaeaea', marginBlock:2}}>
             <h3 style={{width: '8%', borderInline:'1px solid #eaeaea', textAlign:'right', fontSize:14, fontWeight:400}}>({data?.qty}) </h3>
             <h3 style={{width: '56%', borderInline:'1px solid #eaeaea', fontWeight:400, fontSize:14}}>{data?.designation}</h3>
             <h3 style={{width: '18%', borderInline:'1px solid #eaeaea', textAlign:'right', fontWeight:400}}>${(data?.pv_unit)?.toFixed(2)}</h3>
@@ -145,7 +145,7 @@ function CommandeForm({ handleClose }) {
   return (
     <div style={{borderTop: '1px solid #eaeaea', marginTop: -8}}>
         <form onSubmit={form.onSubmit(handleSubmit)}>
-            <div className='dates' style={{paddingTop: 8}}>
+            {/* <div className='dates' style={{paddingTop: 8}}>
                 <DatePicker
                     defaultValue={new Date()}
                     variant="filled" 
@@ -153,7 +153,7 @@ function CommandeForm({ handleClose }) {
                     description="Date de vente :"
                     {...form.getInputProps("sale_date")}
                 />
-            </div>
+            </div> */}
 
             <div className='dates' style={{paddingTop: 8}}>
                 <Select 

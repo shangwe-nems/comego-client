@@ -17,6 +17,7 @@ import saleReducer from './slices/sales'
 import stockReducer from './slices/stocks'
 import travelReducer from './slices/travels'
 import withdrawReducer from './slices/widthdraws'
+import commandeReducer from './slices/commandes'
 
 const reducer = {
     users: userReducer,
@@ -36,7 +37,8 @@ const reducer = {
     sales: saleReducer,
     stocks: stockReducer,
     travels: travelReducer,
-    withdraws: withdrawReducer
+    withdraws: withdrawReducer,
+    commandes: commandeReducer
 }
 
 const store = configureStore({

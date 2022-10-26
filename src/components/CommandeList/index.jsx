@@ -15,7 +15,7 @@ function CommandeList({ handleValidate }) {
 
     const form = useForm({
         initialValues: {
-            product: '',
+            designation: '',
             qty: 1,
             pv_unit: parseInt(1).toFixed(2),
             pv_tot: parseInt(1).toFixed(2)
@@ -25,7 +25,7 @@ function CommandeList({ handleValidate }) {
             qty: (value) => parseInt(value) > 0 ? null : 'qté invalid',
             pv_unit: (value) => (value <= 0 ? 'pv invalid' : null),
         },
-        validateInputOnChange: ['product', 'qty']
+        validateInputOnChange: ['designation', 'qty']
     })
 
     const handleChangeNumber = () => {
@@ -125,8 +125,6 @@ function CommandeList({ handleValidate }) {
                         label="Produit :" 
                         required
                         {...form.getInputProps('designation')}
-                        searchable
-                        clearable
                         className='textinput' 
                         description="Désignation" 
                     />

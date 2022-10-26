@@ -24,7 +24,7 @@ export const findCommandes = createAsyncThunk(
 )
 
 const commandeSlice = createSlice({
-    name: 'commande',
+    name: 'commandes',
     initialState,
     extraReducers: {
         [createCommande.fulfilled] : (state, action) => {

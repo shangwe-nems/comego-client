@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react'
-import { Card, Grid, Button, Modal, Title, Divider, Table, ScrollArea, TextInput, createStyles, UnstyledButton, Group, Text, Center, Avatar, ActionIcon, Badge } from '@mantine/core'
-import { BsFolderPlus, BsCartCheck, BsTagFill, BsSearch, BsChevronUp, BsChevronDown, BsChevronExpand, BsReceipt, BsPrinter, BsXOctagonFill, BsFillXOctagonFill, BsX, BsCheck2, BsXOctagon } from 'react-icons/bs'
+import { Card, Grid, Button, Modal, Title, Divider, Table, ScrollArea, TextInput, createStyles, UnstyledButton, Group, Text, Center, Avatar, ActionIcon } from '@mantine/core'
+import { BsSearch, BsChevronUp, BsChevronDown, BsChevronExpand, BsReceipt, BsPrinter, BsXOctagonFill, BsFillXOctagonFill, BsX, BsCheck2, BsXOctagon, BsCart4 } from 'react-icons/bs'
 import { useModals } from '@mantine/modals'
-import './sales.scss'
-import SaleForm from '../../components/SaleForm'
+import './achats.scss'
 import { LoadClients } from '../../hooks/fetchClients'
 import { useDispatch } from 'react-redux'
 import { useNotifications } from '@mantine/notifications'
 import { useSelector } from 'react-redux'
-import { LoadInvoices } from '../../hooks/fetchInvoices'
 import Loading from '../../components/Loader'
 import InvoiceDisplay from '../../components/InvoiceDisplay'
 import { cancelInvoice } from '../../redux/slices/invoices'
-import ProformaForm from '../../components/ProformaForm'
+import CommandeForm from '../../components/CommandeForm'
+import { LoadCommandes } from '../../hooks/fetchCommandes'
+import { cancelCommande } from '../../redux/slices/commandes'
 
 
 const useStyles = createStyles((theme) => ({
@@ -59,7 +59,7 @@ function Th({ children, reversed, sorted, onSort }) {
 }
 
 function filterData(data, search) {
-  const keys = ['invoice_no', 'createdAt', 'buyer', 'echeance'];
+  const keys = ['commande_no', 'createdAt', 'provider_name'];
   const query = search.toLowerCase().trim();
   
   return data.filter((item) => {
@@ -86,12 +86,12 @@ function sortData(data, payload) {
   );
 }
 
-function Sales() {
+function Commandes() {
   const dispatch = useDispatch()
   const notifications = useNotifications()
-  const invoicesState = useSelector(state => state.invoices)
+  const invoicesState = useSelector(state => state.commandes)
 
-  const [isLoading, invoices] = LoadInvoices()
+  const [isLoading, invoices] = LoadCommandes()
 
   const [createVisible, setcreateVisible] = useState(false)
   const [proformaVisible, setproformaVisible] = useState(false)
@@ -102,6 +102,9 @@ function Sales() {
   const [sortBy, setSortBy] = useState(null);
   const [reverseSortDirection, setReverseSortDirection] = useState(false);
   const [selectedInvoice, setselectedInvoice] = useState()
+
+  const [commandeVisible, setcommandeVisible] = useState(false)
+
 
   useEffect(() => {
     setSortedData(invoicesState)
@@ -118,7 +121,7 @@ function Sales() {
       title: <Text size='lg' weight={400} color="red" style={{display: 'inline-flex', alignItems: 'center'}}>Annuler cette facture ?</Text>,
       children: (
       <Text size="xs">
-          Etes-vous sure de vouloir annuler cette facture ? Cette action est irreversible.
+          Etes-vous sure de vouloir annuler ce bon de commande ? Cette action est irreversible.
       </Text>
       ),
       zIndex: 201,
@@ -127,7 +130,7 @@ function Sales() {
       cancelProps : {size: 'xs'},
       onCancel: () => console.log('Cancel'),
       onConfirm: async () => {
-        const res = await dispatch(cancelInvoice(data._id))
+        const res = await dispatch(cancelCommande(data._id))
         if(res.payload?._id) {
             notifications.showNotification({
                 color: 'green',
@@ -175,18 +178,11 @@ function Sales() {
           </td>
           {/* PV Min */}
           <td style={{textAlign: 'left'}}>
-              <h3 style={{margin: 0, padding: 0, fontWeight:600, fontSize:16, color: 'GrayText'}}>{`Nº ${(row.invoice_no)?.toString()?.padStart(7 + '', "0")}`}</h3>
+              <h3 style={{margin: 0, padding: 0, fontWeight:600, fontSize:16, color: 'GrayText'}}>{`Nº ${(row.commande_no)?.toString()?.padStart(7 + '', "0")}`}</h3>
           </td>
           {/* Prix de revient */}
           <td style={{textAlign: 'left'}}>
-              <h3 style={{margin: 0, padding: 0, fontWeight:600, color:'dodgerblue', fontSize:16}}>{row.buyer?.toUpperCase()}</h3>
-          </td>
-          {/* Prix de vente Min */}
-          <td style={{textAlign: 'right'}}>
-              <h3 style={{margin: 0, padding: 0, fontWeight:600, color: 'GrayText'}}>{row.isCredit ? <Badge size='md' radius='sm' color='red'>Credit</Badge> : <Badge size='md' radius='sm' color='green'>Paid Cash</Badge> }</h3>
-          </td>
-          <td>
-              <h3 style={{margin: 0, padding: 0, fontWeight:600, fontSize:16}}>{row.echeance ? new Date(row.echeance)?.toLocaleString('vh').substring(0, 10) : 'n/a'}</h3>
+              <h3 style={{margin: 0, padding: 0, fontWeight:600, color:'dodgerblue', fontSize:16}}>{row.provider_name?.toUpperCase()}</h3>
           </td>
           {/* Prix de vente Gen */}
           <td style={{textAlign: 'right'}}>
@@ -203,15 +199,7 @@ function Sales() {
   ));
 
   return (
-    <div style={{padding: '8px 14px 8px 28px'}}>
-       <Grid gutter='sm' style={{marginBottom:7}}>
-            <div className='headerMainPage'>
-                <p style={{display: 'inline-flex', alignItems: 'center', fontSize:18, fontWeight:'bold'}}><BsCartCheck fontSize={20} style={{marginRight:8}} /> Ventes</p>
-                <span className='rightSection'>
-                </span> 
-            </div>
-        </Grid>
-
+    <div style={{width: "100%"}}>
         <Grid gutter='sm' style={{marginBottom:7}}>
           <Grid.Col span={12}>
             <Card>
@@ -219,8 +207,7 @@ function Sales() {
                   <ScrollArea>
                       <div style={{width: '100%', display: 'inline-flex', alignItems: 'center', justifyContent: 'space-between'}}>
                           <div>
-                            <Button leftIcon={<BsFolderPlus size={20} />} onClick={() => setcreateVisible(true)} color="red" style={{marginRight: 14}}>Vendre Produit</Button>
-                            <Button leftIcon={<BsReceipt size={20} />} onClick={() => setproformaVisible(true)} color="cyan" >Proforma</Button>
+                            <Button leftIcon={<BsCart4 size={20} />} onClick={() => setcommandeVisible(true)} color="teal" >Passer commande</Button>
                           </div>
                           <TextInput placeholder="Search by any field" value={search} onChange={handleSearchChange} variant="filled" style={{width: 280}} icon={<BsSearch size={14} />} />
                       </div>
@@ -235,9 +222,7 @@ function Sales() {
                               <col span="1" style={{width: "2.8%"}} />
                               <col span="1" style={{width: "9%"}} />
                               <col span="1" style={{width: "8%"}} />
-                              <col span="1" style={{width: "14%"}} />
-                              <col span="1" style={{width: "8%"}} />
-                              <col span="1" style={{width: "8%"}} />
+                              <col span="1" style={{width: "28%"}} />
                               <col span="1" style={{width: "8%"}} />
                               <col span="1" style={{width: "7%"}} />
                           </colgroup>
@@ -253,14 +238,9 @@ function Sales() {
                                       Nº facture
                                   </Th>
                                   <Th>
-                                      Nom du client
+                                      Nom du fournisseur
                                   </Th>
-                                  <Th>
-                                      Paiement
-                                  </Th>
-                                  <Th>
-                                      Echéance
-                                  </Th>
+                                
                                   <Th>
                                       Montant total
                                   </Th>
@@ -272,16 +252,16 @@ function Sales() {
                           {isLoading ? (
                             <tbody>
                                 <tr>
-                                    <td colSpan={8} style={{height: 120}}>
+                                    <td colSpan={6} style={{height: 120}}>
                                         <Loading />
                                     </td>
                                 </tr>
                             </tbody>) : (<tbody>
-                            {rows.length > 0 ? (
+                            {rows?.length > 0 ? (
                                 rows
                             ) : (
                                 <tr >
-                                    <td colSpan={8}>
+                                    <td colSpan={6}>
                                         <Text weight={500} align="center">
                                             Nothing found
                                         </Text>
@@ -300,31 +280,17 @@ function Sales() {
         <Modal
             overlayOpacity={0.5}
             size={550}
-            opened={createVisible}
-            onClose={() => setcreateVisible(false)}
-            title={<Title order={4} style={{ display: 'inline-flex', alignItems: 'center', fontWeight:'400', color:'#fa5252'}}><BsTagFill size={18} style={{marginRight:8}} /> Nouvelle vente</Title>}
+            opened={commandeVisible}
+            onClose={() => setcommandeVisible(false)}
+            title={<Title order={4} style={{ display: 'inline-flex', alignItems: 'center', fontWeight:'600', color:'#fa5252'}}><BsCart4 size={18} style={{marginRight:8}} /> Nouvelle commande</Title>}
         >
-          <SaleForm
-            status='create'
-            handleClose={() => {
-              setcreateVisible(false)
-            }}
-          />
-        </Modal>
-
-        <Modal
-            overlayOpacity={0.5}
-            size={550}
-            opened={proformaVisible}
-            onClose={() => setproformaVisible(false)}
-            title={<Title order={4} style={{ display: 'inline-flex', alignItems: 'center', fontWeight:'400', color:'#52a9fa'}}><BsTagFill size={18} style={{marginRight:8}} /> Facture Proforma</Title>}
-        >
-          <ProformaForm
-            status='create'
-            handleClose={() => {
-              setproformaVisible(false)
-            }}
-          />
+            <CommandeForm
+                status='create' 
+                handleClose={() => {
+                    setcommandeVisible(false)
+                    setselectedInvoice(undefined)
+                }} 
+            />
         </Modal>
 
         <Modal
@@ -335,7 +301,7 @@ function Sales() {
             title={<Title order={4} style={{ display: 'inline-flex', alignItems: 'center', fontWeight:'400', color:'#fa5252'}}><BsReceipt size={18} style={{marginRight:8}} /> Facture Nº {(selectedInvoice?.invoice_no)?.toString()?.padStart(7 + '', "0")}</Title>}
         >
           <InvoiceDisplay
-            category="facture"
+            category="commande"
             data={selectedInvoice}
             handleClose={() => {
               setcreateVisible(false)
@@ -346,4 +312,4 @@ function Sales() {
   )
 }
 
-export default Sales
+export default Commandes

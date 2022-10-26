@@ -1,12 +1,13 @@
-import { Button, Divider } from '@mantine/core'
+import { Button, Divider, Select } from '@mantine/core'
 import React, { useRef } from 'react'
 import { useState } from 'react'
 import { BsPrinter } from 'react-icons/bs'
 import ReactToPrint from 'react-to-print'
 import './invoice.style.scss'
 
-function InvoiceDisplay({ data, handleClose }) {
+function InvoiceDisplay({ category, data, handleClose }) {
     const [printing, setPrinting] = useState(false)
+    const [printValue, setPrintValue] = useState('facture')
 
     const componentRef = useRef();
 
@@ -17,7 +18,7 @@ function InvoiceDisplay({ data, handleClose }) {
     console.log('From invoice Display: ', data)
 
     const selectedItems = data?.products?.map(data => (
-        <tr key={data.product} noWrap style={{borderBlock:'0.5px solid #eaeaea', marginBlock:2}}>
+        <tr key={data._id} noWrap style={{borderBlock:'0.5px solid #eaeaea', marginBlock:2}}>
             <td style={{width: '10%', border:'1px solid #eaeaea', padding: '.2rem', textAlign:'right', fontSize:12}}>
                 <p>{data?.qty}</p>
             </td>
@@ -34,7 +35,7 @@ function InvoiceDisplay({ data, handleClose }) {
     ))
 
     const blankItems = [1, 2, 3, 4, 5, 6].map(data => (
-        <tr key={data.product} noWrap style={{borderBlock:'0.5px solid #eaeaea', marginBlock:2}}>
+        <tr key={data.toString()} noWrap style={{borderBlock:'0.5px solid #eaeaea', marginBlock:2}}>
             <td style={{width: '10%', border:'1px solid #eaeaea', padding: '.2rem', textAlign:'right', fontSize:12}}>
                 <p style={{opacity: 0}}>{data?.qty}</p>
             </td>
@@ -71,16 +72,37 @@ function InvoiceDisplay({ data, handleClose }) {
                 <div className='invoice-no'>
                     {/* <h3>FACTURE N° {(data.invoice_no)?.toString()?.padStart(7 + '', "0")}</h3> */}
                     <p>Goma, le {new Date(data?.createdAt).toLocaleString('vh').substring(0, 10)}</p>
-                    {/* <h3>PROFORMA</h3> */}
-                    <h3>FACTURE</h3>
-                    {/* <h3>BON DE COMMANDE</h3>
-                    <h3>BON DE LIVRAISON</h3> */}
-                    <p style={{fontSize:18}}>#{(data.invoice_no)?.toString()?.padStart(7 + '', "0")}</p>
+                    {category === 'proforma' ? <h3>PROFORMA</h3> :
+                     category === 'facture' ? <h3>{printValue === 'facture' ? 'FACTURE' : 'BON DE LIVRAISON'}</h3> : 
+                     category === 'commande' ? <h3>BON DE COMMANDE</h3> : null}
+                    <p style={{fontSize:18}}>#{category === 'commande' ? (data.commande_no)?.toString()?.padStart(7 + '', "0") :  (data.invoice_no)?.toString()?.padStart(7 + '', "0")}</p>
                 </div>
                 <Divider size="md" style={{marginBlock:32}} />
+
+                <div className='recipient'>
+                    <div className='terms'>
+                        <h5>Destinataire</h5>
+                        <div>
+                            <ol>
+                                <li><b> LatLong Sarl</b></li>
+                                <li><p> Samuel Simweray</p></li>
+                                <li><p><i> +243 995 444 333</i></p></li>
+                                <li><p><i> 89, av bunagana, Q. Les volcans</i></p></li>
+                                <li><p><i> Goma</i></p></li>
+                            </ol>
+                        </div>
+                    </div>
+                    <div className='ids'>
+                        <p>ID. NAT: 19-G4701-N96624D</p>
+                        <p>RCCM: CD/GOM/RCCM/19-A-03920</p>
+                        <p>No Impot : A1203558G</p>
+                    </div>
+                </div>
+
+                {category === 'facture' ? 
                 <div className='invoice-recipient'>
                     <p style={{marginBlock:4}}>Le client; Mr, Mme <b>{data.buyer?.toUpperCase()}</b> doit pour :</p>
-                </div>
+                </div> : null}
 
                 <table style={{width: '100%', borderCollapse: 'collapse'}} className="table-receipt"> 
                     <thead style={{backgroundColor:'#e10600', color: '#fff'}}> 
@@ -118,7 +140,7 @@ function InvoiceDisplay({ data, handleClose }) {
                         <h5>Termes et conditions</h5>
                         <div>
                             <ol>
-                                <li><p> Le client sera facture après avoir indiqué son acceptation du présent devis.</p></li>
+                                <li><p> Le client sera facturé après avoir indiqué son acceptation du présent devis.</p></li>
                                 <li><p> Le paiement sera effectué avant la livraison du service et des biens.</p></li>
                                 {data?.observation ? <li><p>{data?.observation}</p></li> : null}
                             </ol>
@@ -139,15 +161,16 @@ function InvoiceDisplay({ data, handleClose }) {
                 {/* Here goes the footer */}
                 <p className='invoice-footer'>Des questions ? Envoyez-nous un e-mail à l’adresse comego.sarl@gmail.com ou appelez-nous au (+243) 973 659 779; (+243) 994 230 259</p>
                 
-                {data.isValid ? 
+                {data.isValid && category === 'facture' ? 
                     (data.isCredit ? <span className="watermark" style={{color:"rgba(255, 154, 2, 0.282)", border: "4px solid rgba(255, 154, 2, 0.28)"}}>à payer</span> : 
                     <span className="watermark" style={{color:"rgba(0, 128, 0, .28)", border: "4px solid rgba(0, 128, 0, .28)"}}>PAYé CASH</span>) :
-                <span className="watermark" style={{color:"rgba(244, 37, 0, 0.28)", border: "4px solid rgba(244, 37, 0, 0.28)"}}>ANNULée</span>}
+                (category === 'commande' || category === 'facture') && !data.isValid ? <span className="watermark" style={{color:"rgba(244, 37, 0, 0.28)", border: "4px solid rgba(244, 37, 0, 0.28)"}}>ANNULée</span> : null}
 
             </div>
             <Divider />
 
             <div style={{float: 'right', display: 'inline-flex', alignItems: 'center', marginTop: 14}}>
+                {category === 'facture' ? <Select defaultValue='facture' variant="filled" data={[{ label:'Facture', value: 'facture'}, {label: 'Bon de livraison', value: 'livraison'}]} style={{marginRight:14}} onChange={(e) => setPrintValue(e)} /> : null}
                 <ReactToPrint
                     trigger={() => <Button size='sm' loading={printing} leftIcon={<BsPrinter />}  type='submit' color='red'>Imprimer</Button>}
                     content={() => componentRef.current}

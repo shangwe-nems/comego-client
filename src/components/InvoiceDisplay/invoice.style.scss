@@ -95,6 +95,52 @@ td, th {
     user-select: none;
 }
 
+.recipient {
+    width: 100%;
+    margin-top: -24px;
+    margin-bottom: 24px;
+    display: inline-flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    font-size: 14px;
+
+    .terms {
+        width: 49%;
+        border: 1px solid #eaeaea;
+        
+
+        h5 {
+            background-color: #e10600;
+            color:#fff;
+            padding: 4px 14px;
+        }
+
+        ol {
+            padding: 8px 14px;
+            list-style: none;
+
+            li {
+                line-height: normal;
+
+                p {
+                    line-height: 16px;
+                }
+            }
+        }
+    }
+
+    .ids {
+        padding: 14px;
+        border: 1px solid #eaeaea;
+        width: 49%;
+        text-align: right;
+
+        p {
+            margin-block: -4px;
+        }
+    }
+}
+
 .note {
     width: 100%;
     margin-top: 24px;
