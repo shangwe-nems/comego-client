@@ -298,7 +298,7 @@ function Commandes() {
             size={900}
             opened={invoiceVisible}
             onClose={() => setinvoiceVisible(false)}
-            title={<Title order={4} style={{ display: 'inline-flex', alignItems: 'center', fontWeight:'400', color:'#fa5252'}}><BsReceipt size={18} style={{marginRight:8}} /> Facture Nº {(selectedInvoice?.invoice_no)?.toString()?.padStart(7 + '', "0")}</Title>}
+            title={<Title order={4} style={{ display: 'inline-flex', alignItems: 'center', fontWeight:'400', color:'#fa5252'}}><BsReceipt size={18} style={{marginRight:8}} /> Bon de commande Nº {(selectedInvoice?.commande_no)?.toString()?.padStart(7 + '', "0")}</Title>}
         >
           <InvoiceDisplay
             category="commande"

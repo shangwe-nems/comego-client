@@ -3,25 +3,13 @@ import { ActionIcon, Avatar, Button, Divider, Group, Modal, Select, Text, Textar
 import { DatePicker } from '@mantine/dates';
 
 import * as yup from "yup"
-import { useNotifications } from '@mantine/notifications';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useForm, yupResolver } from '@mantine/form';
-import { BsCash, BsCheck2, BsCreditCard, BsExclamationLg, BsPerson, BsPlus, BsPrinter, BsReceipt, BsTags } from 'react-icons/bs';
-import { FaRegSave } from 'react-icons/fa';
+import { BsPerson, BsPlus, BsReceipt, BsTags } from 'react-icons/bs';
 import AchatList from '../AchatList';
 import ClientForm from '../ClientForm';
 import InvoiceDisplay from '../InvoiceDisplay';
 
-const optionsPayment = [
-    {
-        label: 'Cash',
-        value: 'cash'
-    },
-    {
-        label: 'Credit',
-        value: 'credit'
-    }
-]
 
 const SelectItem2 = forwardRef(
     ({ reference, phone, label, description, ...others }, ref) => (
@@ -40,18 +28,6 @@ const SelectItem2 = forwardRef(
     )
 );
 
-const SelectItem3 = forwardRef(
-    ({ label, value, ...others }, ref) => (
-        <div ref={ref} {...others}>
-            <Group noWrap>
-                {value === 'cash' ? <BsCash /> : <BsCreditCard /> }
-                <div>
-                    <Text size='sm'>{label}</Text>
-                </div>
-            </Group>
-        </div>
-    )
-);
 
 const createProformaSchema = yup.object().shape({
     sale_date: yup.string().required(),
@@ -64,12 +40,9 @@ const createProformaSchema = yup.object().shape({
 })
 
 function ProformaForm({ handleClose }) {
-    const dispatch = useDispatch()
-    const notifications = useNotifications()
     const [loading, setloading] = useState(false);
     const [clientType, setclientType] = useState('Occasionnel')
     const [clientCreate, setclientCreate] = useState(false);
-    const [paymentType, setpaymentType] = useState('cash');
     const [productSelect, setproductSelect] = useState(false)
     const [itemList, setItemList] = useState([])
     const [total, setTotal] = useState(0)
@@ -105,13 +78,15 @@ function ProformaForm({ handleClose }) {
     }
 
     function handleSubmit(values, e) {
+        const client = findClientName(values?.client)
+
         setloading(true)
         const dataToSubmit = { 
             ...values, 
             createdAt: new Date().toISOString(),
             invoice_no: (Math.random().toString()).substring(2,6),
-            buyer_name: values?.buyer_category === 'casual' ? values?.buyer_name : findClientName(values?.client).names,
-            client: values?.buyer_category === 'regular' ? values?.client : undefined,
+            buyer_name: values?.buyer_category === 'casual' ? values?.buyer_name : client.names,
+            client: values?.buyer_category === 'regular' ? client : undefined,
             products: itemList,
             total_amount: parseFloat(total.toFixed(2)),
             isValid: true,
@@ -121,34 +96,6 @@ function ProformaForm({ handleClose }) {
 
         setselectedInvoice(dataToSubmit)
         setinvoiceVisible(true)
-        
-        // setTimeout(() => {
-        //     dispatch(createProforma({ dataToSubmit }))
-        //         .then(res => {
-        //             if(res?.payload) {
-        //                 handleClose()
-        //                 notifications.showNotification({
-        //                     color: 'green',
-        //                     title: 'Success',
-        //                     message: 'Saved successfully!',
-        //                     icon: <BsCheck2 size={20} />
-        //                 })
-        //                 setloading(false)
-        //             }
-                
-        //             if(res?.error?.message === "Unauthorized") {
-        //                 setloading(false)
-        //                 notifications.showNotification({
-        //                     color: 'red',
-        //                     title: 'Error',
-        //                     message: 'Something happened...',
-        //                     icon: <BsExclamationLg size={20} />
-        //                 })
-        //             }
-        //         })
-        //     setloading(false)
-        // }, 800);
-
        
     }
 
@@ -294,6 +241,7 @@ function ProformaForm({ handleClose }) {
             category="proforma"
             handleClose={() => {
               setinvoiceVisible(false)
+              setloading(false)
             }}
           />
         </Modal>

@@ -97,7 +97,7 @@ td, th {
 
 .recipient {
     width: 100%;
-    margin-top: -24px;
+    margin-top: 14px;
     margin-bottom: 24px;
     display: inline-flex;
     align-items: flex-start;
@@ -105,10 +105,9 @@ td, th {
     font-size: 14px;
 
     .terms {
-        width: 49%;
+        width: 49.5%;
         border: 1px solid #eaeaea;
         
-
         h5 {
             background-color: #e10600;
             color:#fff;
@@ -122,6 +121,10 @@ td, th {
             li {
                 line-height: normal;
 
+                b {
+                    padding-block: 4px;
+                }
+
                 p {
                     line-height: 16px;
                 }
@@ -130,14 +133,35 @@ td, th {
     }
 
     .ids {
-        padding: 14px;
         border: 1px solid #eaeaea;
         width: 49%;
         text-align: right;
 
-        p {
-            margin-block: -4px;
+        h5 {
+            background-color: #e10600;
+            color:#fff;
+            padding: 4px 14px;
         }
+
+        div {
+            padding: 8px 14px;
+
+            p {
+                margin-block: -4px;
+            }
+        }
+    }
+}
+
+.infos {
+    margin-bottom: 8px;
+
+    h3 {
+        font-size: 14px;
+    }
+
+    p{
+        font-size: 12px;
     }
 }
 
@@ -176,7 +200,7 @@ td, th {
         padding: 14px;
         border: 1px solid #eaeaea;
         width: 34%;
-        text-align: right;
+        text-align: left;
 
         p {
             margin-block: -4px;
