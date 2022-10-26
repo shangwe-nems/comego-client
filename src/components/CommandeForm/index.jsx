@@ -1,28 +1,16 @@
 import React, { forwardRef, useState } from 'react'
-import { ActionIcon, Avatar, Button, Divider, Group, Modal, Select, Text, Textarea, TextInput, Title } from '@mantine/core';
-import { DatePicker } from '@mantine/dates';
+import { ActionIcon, Avatar, Button, Divider, Group, Modal, Select, Text, Textarea, Title } from '@mantine/core';
 
 import * as yup from "yup"
 import { useNotifications } from '@mantine/notifications';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm, yupResolver } from '@mantine/form';
-import { BsCash, BsCheck2, BsCreditCard, BsExclamationLg, BsPerson, BsPlus, BsShop, BsTags } from 'react-icons/bs';
+import { BsCheck2, BsExclamationLg, BsPlus, BsShop, BsTags } from 'react-icons/bs';
 import { FaRegSave } from 'react-icons/fa';
-import ClientForm from '../ClientForm';
 import { createCommande } from '../../redux/slices/commandes';
 import CommandeList from '../CommandeList';
 import ProviderForm from '../ProviderForm';
 
-const optionsPayment = [
-    {
-        label: 'Cash',
-        value: 'cash'
-    },
-    {
-        label: 'Credit',
-        value: 'credit'
-    }
-]
 
 const SelectItem2 = forwardRef(
     ({ shop_name, _id, contact, label, description, ...others }, ref) => (
