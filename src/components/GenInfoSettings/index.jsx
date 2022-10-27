@@ -82,7 +82,6 @@ function GenInfoSettings() {
 
     const [user, setuser] = useState();
     const userAuth = useSelector(state => state.sessions.authUser) 
-    // const userAuthSessions = useSelector(state => state.sessions.authSessions)
     const [loadingSession, sessionList] = LoadSessions()
     const [verifying, setverifying] = useState(false)
 
@@ -93,7 +92,6 @@ function GenInfoSettings() {
         setValue,
         handleSubmit,
         formState: { errors },
-        reset
     } = useForm({
         mode: "onSubmit",
         defaultValues: {
@@ -142,8 +140,6 @@ function GenInfoSettings() {
             size={4}
         />
         ));
-
-    const notifications = useNotifications()
 
     function onSubmit(values, e){
         e.preventDefault()
@@ -201,7 +197,7 @@ function GenInfoSettings() {
             }))
             
             if(res.payload === undefined) {
-                notifications.showNotification({
+                showNotification({
                     color: 'red',
                     title: 'Failed',
                     message: 'Passwords do not match, try again',
@@ -212,7 +208,7 @@ function GenInfoSettings() {
             if(res.payload === 'Created') {
                 setIsAuth('pending')
                 setValuePwd('')
-                notifications.showNotification({
+                showNotification({
                     color: 'green',
                     title: 'Success',
                     message: 'Password Updated successfully',

@@ -1,7 +1,7 @@
 import { Button, Divider, Select } from '@mantine/core'
 import React, { useRef } from 'react'
 import { useState } from 'react'
-import { BsPrinter } from 'react-icons/bs'
+import { BsCheck2, BsCheck2Circle, BsPrinter } from 'react-icons/bs'
 import ReactToPrint from 'react-to-print'
 import './invoice.style.scss'
 
@@ -56,7 +56,7 @@ function InvoiceDisplay({ category, data, handleClose }) {
             <div style={{width: '100%', minHeight:150, padding: '24px', border: '1px solid #dfdfdf', borderRadius:8}} ref={componentRef}>
                 {/* Here goes the headings */}
                 <div className='invoice-title'>
-                    <img src="/logo-print.svg" alt="logo" />
+                    <img src='./logo-print.svg' alt="logo" />
 
                     <div>
                         <h3>Complexe Mécanique de Goma</h3>
@@ -158,7 +158,7 @@ function InvoiceDisplay({ category, data, handleClose }) {
                     <p style={{marginBlock:4}}>Le client; Mr, Mme <b>{data.buyer?.toUpperCase()}</b> doit pour :</p>
                 </div> : null}
 
-                {category !== 'facture' || printValue === 'livraison' ? <div className='infos'>
+                {(category !== 'facture' && category !== 'commande') || printValue === 'livraison' ? <div className='infos'>
                     <h3>Informations additionnelles</h3>
                     <p>Nous vous remercions de votre confiance. En accord avec votre commande, veuillez trouver les articles et services suivants: </p>
                 </div> : null}
@@ -234,9 +234,9 @@ function InvoiceDisplay({ category, data, handleClose }) {
                 <p className='invoice-footer'>Des questions ? Envoyez-nous un e-mail à l’adresse comego.sarl@gmail.com ou appelez-nous au (+243) 973 659 779; (+243) 994 230 259</p>
                 
                 {data.isValid && category === 'facture' && printValue === 'facture' ? 
-                    (data.isCredit ? <span className="watermark" style={{color:"rgba(255, 154, 2, 0.282)", border: "4px solid rgba(255, 154, 2, 0.28)"}}>à payer</span> : 
-                    <span className="watermark" style={{color:"rgba(0, 128, 0, .28)", border: "4px solid rgba(0, 128, 0, .28)"}}>PAYé CASH</span>) :
-                (category === 'commande' || category === 'facture') && !data.isValid ? <span className="watermark" style={{color:"rgba(244, 37, 0, 0.28)", border: "4px solid rgba(244, 37, 0, 0.28)"}}>ANNULée</span> : null}
+                    (data.isCredit ? <span className="watermark" style={{color:"rgba(255, 154, 2, 0.282)", border: "4px solid rgba(255, 154, 2, 0.28)"}}>credit</span> : null) :
+                    // <span className="watermark" style={{color:"rgba(0, 128, 0, .28)", border: "4px solid rgba(0, 128, 0, .28)"}}>PAid<BsCheck2Circle style={{marginBottom: -8}} /></span>) :
+                (category === 'commande' || category === 'facture') && !data.isValid ? <span className="watermark" style={{color:"rgba(244, 37, 0, 0.28)", border: "4px solid rgba(244, 37, 0, 0.28)"}}>invalid</span> : null}
 
             </div>
             <Divider />

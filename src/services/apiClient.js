@@ -1,4 +1,6 @@
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
+
 
 const apiClient = axios.create({
     // baseURL: 'http://192.168.2.100:1337/api',
@@ -7,7 +9,7 @@ const apiClient = axios.create({
         'Accept': 'application/json',
         'Content-Type': 'application/json'
     },
-    withCredentials: true
+    withCredentials: false
 })
 
 apiClient.interceptors.request.use(request => {
@@ -27,11 +29,14 @@ apiClient.interceptors.response.use(
         return response
     },
     function (error) {
+        // const navigate = useNavigate()
         let res = error.response;
         if(res.status === 401 || res.status === 403) {
             sessionStorage.clear()
             localStorage.clear()
             // window.location.href = 'http://192.168.2.100:3000/#/login?expired=true'
+            // navigate('/login?expired=true', { replace: true })
+            // useNavigate('/login?expired=true', { repla})
             window.location.href = 'http://localhost:3000/#/login?expired=true'
         }
         return Promise.reject(error.response.data)

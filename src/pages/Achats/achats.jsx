@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Card, Grid, Modal, Title, ScrollArea, TextInput, Table, createStyles, UnstyledButton, Center, Group, Text, Divider, Avatar } from '@mantine/core'
-import { BsFolderPlus, BsCashCoin, BsSearch, BsPencilSquare, BsChevronUp, BsChevronDown, BsChevronExpand, BsTags, BsCart4 } from 'react-icons/bs'
+import { BsFolderPlus, BsSearch, BsPencilSquare, BsChevronUp, BsChevronDown, BsChevronExpand, BsTags } from 'react-icons/bs'
 import AchatForm from '../../components/AchatForm'
 import './achats.scss'
 import Loading from '../../components/Loader'
 import { useSelector } from 'react-redux'
 import { LoadPurchases } from '../../hooks/fetchPurchases'
-import CommandeForm from '../../components/CommandeForm'
 
 const useStyles = createStyles((theme) => ({
     th: {
@@ -92,7 +91,6 @@ function Purchase() {
     }, [purchasesState, purchases])
 
     const [createVisible, setcreateVisible] = useState(false)
-    const [commandeVisible, setcommandeVisible] = useState(false)
     const [editVisible, setEditVisible] = useState(false)
 
     const setSorting = (field) => {

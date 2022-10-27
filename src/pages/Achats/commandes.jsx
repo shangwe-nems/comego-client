@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react'
 import { Card, Grid, Button, Modal, Title, Divider, Table, ScrollArea, TextInput, createStyles, UnstyledButton, Group, Text, Center, Avatar, ActionIcon } from '@mantine/core'
 import { BsSearch, BsChevronUp, BsChevronDown, BsChevronExpand, BsReceipt, BsPrinter, BsXOctagonFill, BsFillXOctagonFill, BsX, BsCheck2, BsXOctagon, BsCart4 } from 'react-icons/bs'
@@ -9,7 +10,6 @@ import { useNotifications } from '@mantine/notifications'
 import { useSelector } from 'react-redux'
 import Loading from '../../components/Loader'
 import InvoiceDisplay from '../../components/InvoiceDisplay'
-import { cancelInvoice } from '../../redux/slices/invoices'
 import CommandeForm from '../../components/CommandeForm'
 import { LoadCommandes } from '../../hooks/fetchCommandes'
 import { cancelCommande } from '../../redux/slices/commandes'
@@ -94,7 +94,6 @@ function Commandes() {
   const [isLoading, invoices] = LoadCommandes()
 
   const [createVisible, setcreateVisible] = useState(false)
-  const [proformaVisible, setproformaVisible] = useState(false)
 
   const [invoiceVisible, setinvoiceVisible] = useState(false)
   const [search, setSearch] = useState('');

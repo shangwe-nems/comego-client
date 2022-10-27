@@ -165,7 +165,7 @@ function LoginPage() {
                     
                     <div className="fgtpwd">
                         <Checkbox 
-                            label='Se souvenir de moi' size='xs' color='green' 
+                            label='Se souvenir de moi' size='xs' color='red' 
                             onChange={(e) => setValue('remember', e.target.checked)} 
                         />
                         <a href='/reset-password' style={{fontSize:12}}>Mot de passe oublié?</a>
