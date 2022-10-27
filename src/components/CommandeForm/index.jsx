@@ -2,7 +2,6 @@ import React, { forwardRef, useState } from 'react'
 import { ActionIcon, Avatar, Button, Divider, Group, Modal, Select, Text, Textarea, Title } from '@mantine/core';
 
 import * as yup from "yup"
-import { useNotifications } from '@mantine/notifications';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm, yupResolver } from '@mantine/form';
 import { BsCheck2, BsExclamationLg, BsPlus, BsShop, BsTags } from 'react-icons/bs';
@@ -10,6 +9,7 @@ import { FaRegSave } from 'react-icons/fa';
 import { createCommande } from '../../redux/slices/commandes';
 import CommandeList from '../CommandeList';
 import ProviderForm from '../ProviderForm';
+import { showNotification } from '@mantine/notifications';
 
 
 const SelectItem2 = forwardRef(
@@ -41,7 +41,6 @@ const createCommandeSchema = yup.object().shape({
 
 function CommandeForm({ handleClose }) {
     const dispatch = useDispatch()
-    const notifications = useNotifications()
     const [loading, setloading] = useState(false);
     const [clientCreate, setclientCreate] = useState(false);
     const [productSelect, setproductSelect] = useState(false)
@@ -96,7 +95,7 @@ function CommandeForm({ handleClose }) {
                 .then(res => {
                     if(res?.payload) {
                         handleClose()
-                        notifications.showNotification({
+                        showNotification({
                             color: 'green',
                             title: 'Success',
                             message: 'Saved successfully!',
@@ -107,7 +106,7 @@ function CommandeForm({ handleClose }) {
                 
                     if(res?.error?.message === "Unauthorized") {
                         setloading(false)
-                        notifications.showNotification({
+                        showNotification({
                             color: 'red',
                             title: 'Error',
                             message: 'Something happened...',

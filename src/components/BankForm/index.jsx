@@ -7,7 +7,7 @@ import MotifForm from '../MotifForm';
 import { useForm, yupResolver } from '@mantine/form';
 import { useDispatch } from 'react-redux';
 import * as yup from "yup";
-import { useNotifications } from '@mantine/notifications';
+import { showNotification } from '@mantine/notifications';
 import { IoHandRight } from 'react-icons/io5';
 import { createBank, updateBank } from '../../redux/slices/banks';
 import { useSelector } from 'react-redux';
@@ -37,7 +37,6 @@ const createTransactionSchema = yup.object().shape({
 
 function BankForm({ status, data, handleClose }) {
     const dispatch = useDispatch()
-    const notifications = useNotifications()
     const motives = useSelector(state => state.motives)
     const [loading, setloading] = useState(false);
     const [provider, setprovider] = useState(false);
@@ -98,7 +97,7 @@ function BankForm({ status, data, handleClose }) {
                     .then(res => {
                         if(res?.payload) {
                             handleClose()
-                            notifications.showNotification({
+                            showNotification({
                                 color: 'green',
                                 title: 'Success',
                                 message: 'Purchase created successfully',
@@ -109,7 +108,7 @@ function BankForm({ status, data, handleClose }) {
   
                         if(res?.error?.message === "Forbidden") {
                             setloading(false)
-                            notifications.showNotification({
+                            showNotification({
                                 color: 'orange',
                                 title: 'Forbidden',
                                 message: 'You are not authorized to perfom this action!!',
@@ -119,7 +118,7 @@ function BankForm({ status, data, handleClose }) {
                   
                         if(res?.error?.message === "Unauthorized") {
                             setloading(false)
-                            notifications.showNotification({
+                            showNotification({
                                 color: 'red',
                                 title: 'Error',
                                 message: 'Something happened...',
@@ -137,7 +136,7 @@ function BankForm({ status, data, handleClose }) {
             .then(res => {
                 if(res.payload) {
                     handleClose()
-                    notifications.showNotification({
+                    showNotification({
                         color: 'green',
                         title: 'Success',
                         message: 'Purchase created successfully',
@@ -148,7 +147,7 @@ function BankForm({ status, data, handleClose }) {
   
                 if(res.error.message === "Forbidden") {
                     setloading(false)
-                    notifications.showNotification({
+                    showNotification({
                         color: 'orange',
                         title: 'Forbidden',
                         message: 'You are not authorized to perfom this action!!',
@@ -158,7 +157,7 @@ function BankForm({ status, data, handleClose }) {
           
                 if(res.error.message !== "Forbidden") {
                     setloading(false)
-                    notifications.showNotification({
+                    showNotification({
                         color: 'red',
                         title: 'Error',
                         message: 'Something happened...',

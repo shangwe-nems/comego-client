@@ -167,13 +167,11 @@ function AchatForm({ status, purchase, handleClose }) {
       setloading(true);
       const foundItem = stocks.find(obj => obj._id === values?.designation)
 
-      console.log('Values: ', values)
-
       if(status === 'create') {
 
           const dataToSubmit = { 
               ...values, 
-              unit: foundItem.unit || values?.unit,
+              unit: foundItem?.unit || values?.unit,
               currency: selectedTravel?.currency, 
               exchange_rate: selectedTravel?.exchange_rate,
               revient_price: values?.category === 'local' ? values?.local_pa_unit : values?.revient_price
@@ -273,8 +271,8 @@ function AchatForm({ status, purchase, handleClose }) {
   }
 
   const handleRevientPrice = () => {
-      const foreign_pa_unit = parseFloat(document.getElementsByName('foreign_pa')[0].value);
-      const local_pa_unit = parseFloat(document.getElementsByName('local_pa')[0].value);
+      const foreign_pa_unit = parseFloat(document.getElementsByName('foreign_pa')[0]?.value);
+      const local_pa_unit = parseFloat(document.getElementsByName('local_pa')[0]?.value);
 
       const pau_ml = parseFloat(foreign_pa_unit / selectedTravel?.exchange_rate).toFixed(4)
       const pr = (selectedTravel?.coefficient + parseInt(1)) 
@@ -282,12 +280,12 @@ function AchatForm({ status, purchase, handleClose }) {
       const category = form?.values?.category
 
       
-      form.setFieldValue("local_pa_unit", pau_ml)
+      // form.setFieldValue("local_pa_unit", category !== 'local' ? local_pa_unit : pau_ml)
       form.setFieldValue("revient_price", category === 'local' ? local_pa_unit : parseFloat(pr * pau_ml).toFixed(4))
   }
 
   const handleForeignPrice = () => {
-      const local_pa_unit = parseFloat(document.getElementsByName('local_pa')[0].value);
+      const local_pa_unit = parseFloat(document.getElementsByName('local_pa')[0]?.value);
 
       const foreign_pa_unit = parseFloat(selectedTravel?.exchange_rate * local_pa_unit).toFixed(4);
 

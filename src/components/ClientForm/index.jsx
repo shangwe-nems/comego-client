@@ -2,8 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import * as yup from "yup"
-import { useNotifications } from '@mantine/notifications';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Button, TextInput } from '@mantine/core';
 import { BsTelephone, BsEnvelope, BsCheck2, BsExclamationLg } from 'react-icons/bs'
 import { FaSave } from 'react-icons/fa'
@@ -11,6 +10,7 @@ import './clientform.scss'
 import { useForm, yupResolver } from '@mantine/form';
 import { IoHandRight } from 'react-icons/io5';
 import { createClient, updateClient } from '../../redux/slices/clients';
+import { showNotification } from '@mantine/notifications';
 
 const createClientSchema = yup.object().shape({
   names: yup.string().required('noms exigés'),
@@ -21,7 +21,6 @@ const createClientSchema = yup.object().shape({
 
 function ClientForm({ status, data, handleClose }) {
   const dispatch = useDispatch()
-  const notifications = useNotifications()
 
   const [loading, setloading] = useState(false);
 
@@ -62,7 +61,7 @@ function ClientForm({ status, data, handleClose }) {
                 .then(res => {
                     if(res?.payload) {
                         handleClose()
-                        notifications.showNotification({
+                        showNotification({
                             color: 'green',
                             title: 'Success',
                             message: 'creation successful',
@@ -73,7 +72,7 @@ function ClientForm({ status, data, handleClose }) {
 
                     if(res?.error?.message === "Forbidden") {
                         setloading(false)
-                        notifications.showNotification({
+                        showNotification({
                             color: 'orange',
                             title: 'Forbidden',
                             message: 'You are not authorized to perfom this action!!',
@@ -83,7 +82,7 @@ function ClientForm({ status, data, handleClose }) {
               
                     if(res?.error?.message === "Unauthorized") {
                         setloading(false)
-                        notifications.showNotification({
+                        showNotification({
                             color: 'red',
                             title: 'Error',
                             message: 'Something happened...',
@@ -101,7 +100,7 @@ function ClientForm({ status, data, handleClose }) {
           .then(res => {
               if(res.payload) {
                   handleClose()
-                  notifications.showNotification({
+                  showNotification({
                       color: 'green',
                       title: 'Success',
                       message: 'update successful',
@@ -112,7 +111,7 @@ function ClientForm({ status, data, handleClose }) {
 
               if(res.error.message === "Forbidden") {
                   setloading(false)
-                  notifications.showNotification({
+                  showNotification({
                       color: 'orange',
                       title: 'Forbidden',
                       message: 'You are not authorized to perfom this action!!',
@@ -122,7 +121,7 @@ function ClientForm({ status, data, handleClose }) {
         
               if(res.error.message !== "Forbidden") {
                   setloading(false)
-                  notifications.showNotification({
+                  showNotification({
                       color: 'red',
                       title: 'Error',
                       message: 'Something happened...',

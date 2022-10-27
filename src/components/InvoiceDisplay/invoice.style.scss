@@ -24,22 +24,22 @@ td, th {
     width: 100%;
 
     img {
-        height: 75px;
+        height: 65px;
         width: auto;
     }
 
     div { 
-        margin-left: 8px;
+        margin-left: 6px;
         
 
         h3{
-            font-size: 1.1em;
-            margin-bottom: 8px;
+            font-size: 1em;
+            margin-bottom: 6px;
         }
 
         span {
             p {
-                font-size: 14px;
+                font-size: 12px;
                 margin-block: -6px;
             } 
         }
@@ -49,10 +49,10 @@ td, th {
 }
 
 .invoice-no {
-    margin-top: -80px;
+    margin-top: -72px;
     font-family: 'Saira Semi Condensed', sans-serif;
     text-align: right;
-    font-size: 2.2rem;
+    font-size: 2.0rem;
     margin-bottom: 4px;
     color: #999;
     font-weight: 600;
@@ -65,7 +65,7 @@ td, th {
 
 .invoice-recipient {
     margin-top: 8px;
-    font-size: 14px;
+    font-size: 12px;
     vertical-align: middle;
 }
 
@@ -88,8 +88,8 @@ td, th {
     position: absolute;
     text-align: center;
     text-transform: uppercase;
-    top: 75%;
-    right: 7%;
+    top: 70%;
+    right: 15%;
     // transform: translate(-50%,-75%);
     transform: rotate(-35deg);
     user-select: none;
@@ -102,7 +102,7 @@ td, th {
     display: inline-flex;
     align-items: flex-start;
     justify-content: space-between;
-    font-size: 14px;
+    font-size: 12px;
 
     .terms {
         width: 49.5%;
@@ -157,7 +157,7 @@ td, th {
     margin-bottom: 8px;
 
     h3 {
-        font-size: 14px;
+        font-size: 12px;
     }
 
     p{
