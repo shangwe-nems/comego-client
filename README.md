@@ -1,4 +1,4 @@
-# Getting Started with UPhoto App
+# Getting Started with COMEGO App
 
 This project was bootstrapped with [Create React App]
 
